@@ -1,6 +1,6 @@
 import * as cdk from '@aws-cdk/core';
 import * as ec2 from '@aws-cdk/aws-ec2';
-import { SubnetType } from '@aws-cdk/aws-ec2';
+import { SubnetType, FlowLogDestination } from '@aws-cdk/aws-ec2';
 
 export class BastionStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -23,7 +23,12 @@ export class BastionStack extends cdk.Stack {
         cidrMask: 26,
         name: 'dmzNet',
         subnetType: SubnetType.PRIVATE,
-      }]
+      }],
+      flowLogs: {
+        VpcFlowLogs: {
+          destination: FlowLogDestination.toCloudWatchLogs(),
+        }
+      }
     });
   }
 }
